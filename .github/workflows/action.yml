@@ -23,7 +23,7 @@ jobs:
     - run: rm -rf dist/*
     - run: yarn prod
     - name: Deploy to gha-tip
-      if: endsWith(github.ref, '/master')
+      #if: endsWith(github.ref, '/master')
       run: ./.github/update_gha-tip.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
