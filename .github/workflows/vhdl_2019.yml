@@ -1,0 +1,20 @@
+name: 'VHDL 2019'
+
+on:
+  push:
+  schedule:
+    - cron: '15 0 * * *'
+
+jobs:
+  issues:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - run: python -m pip install -r https://raw.githubusercontent.com/VHDL/Compliance-Tests/LCS2019/issues/requirements.txt
+    - run: |
+        curl -fsSL https://raw.githubusercontent.com/VHDL/Compliance-Tests/LCS2019/issues/issues.py |\
+        python - -l 'FeaReq: LCS-2019' -i 'FeaReq: ISAC-2019' -m 'VHDL-2019' -r '${{github.repository}}'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
