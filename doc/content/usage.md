@@ -76,9 +76,7 @@ Alternatively, if no `:image:` is defined, the file which is named `run` will be
 
 ## CLI
 
-<aside class="notice">
-Features to automatically label/comment the issues are not included in the CLI tool. These features are implemented in the GitHub Action only.
-</aside>
+{{% aside notice %}}Features to automatically label/comment the issues are not included in the CLI tool. These features are implemented in the GitHub Action only.{{% /aside %}}
 
 > Providing a list of identifiers is supported:
 
