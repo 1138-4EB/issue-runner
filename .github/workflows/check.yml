@@ -24,6 +24,7 @@ jobs:
         yarn prod
         mv dist/main.js ./
         ls -la
+    - run: node ./main.js ghdl ghdl
     - run: node ./main.js eine issue-runner
     - uses: ./
       with:

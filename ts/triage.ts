@@ -6,7 +6,7 @@ export async function triage (
   issue
 ): Promise<any> {
 
-  const allowHost = getInput('token', { required: false }) !== undefined
+  const allowHost = getInput('allowHost', { required: false }) !== undefined
 
 /*
  if 'triage' added -> execute

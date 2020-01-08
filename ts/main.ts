@@ -67,6 +67,8 @@ export async function run (): Promise<any> {
       if (ctx.eventName !== 'issues' || !payload.issue) {
         const repo: PayloadRepository | undefined = payload.repository
         if (repo && repo.full_name) {
+          // TODO: this const is a string that contains an array of strings. It needs to be converted.
+          // const filterLabels = getInput('allowHost', { required: false })
           const sum = await execute(await getIssues(
             octokit,
             repo.full_name.split('/'),

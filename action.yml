@@ -5,9 +5,14 @@ inputs:
   token:
     description: 'Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
     required: false
-  allow-host:
+  allowHost:
     description: 'Whether to allow executing MWEs on the host (i.e. without a container)'
     required: false
+    default: false
+  filterLabels:
+    description: 'Optional list of labels to filter the issues to be analysed'
+    required: false
+    default: "['fixed?', 'triage', 'reproducible']"
 runs:
   using: 'node12'
   main: 'main.js'
