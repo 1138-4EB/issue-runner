@@ -36,7 +36,7 @@ search = true
     weight = 2
     title = "issue-runner documentation"
     toc_footers = [
-      "[![github.com/eine/issue-runner](https://img.shields.io/badge/-eine/issue--runner-323131.svg?logo=github&style=flat-square&longCache=true)](https://github.com/eine/issue-runner)",
+      "[![github.com/eine/issue-runner](https://img.shields.io/badge/-eine/issue--runner-24292e.svg?logo=github&style=flat-square&longCache=true)](https://github.com/eine/issue-runner)",
       "Built with [Hugo](https://gohugo.io/) theme [DocuAPI](https://github.com/bep/docuapi) by [bep](https://github.com/bep)"
     ]
     [languages.en.blackfriday]

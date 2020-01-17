@@ -13,15 +13,7 @@
 
 ---
 
-**issue-runner** is a toolkit to retrive, set up and run Minimal Working Examples (MWEs). MWEs are defined in markdown files (such as the first comment in a GitHub issue), and external tarball(s)/zipfile(s)/file(s) can be included. It extracts sources to separate files, (optionally) invokes docker, executes the entrypoint, and cleans up.
-
-The main use case for this toolkit is to be added to a GitHub Actions (GHA) workflow in order to monitor the issues in a repository and optionally report status/results by:
-
-- labelling issues as `reproducible` or `fixed?`,
-- adding a comment to the issue with logs and/or refs to jobs/artifacts,
-- and/or making test artifacts available through a CI job
-
-Nonetheless, the CLI tool can also be used to set up and test any MWE or issue locally.
+**issue-runner** is a toolkit to retrive, set up and run [Minimal Working Examples (MWEs)](https://en.wikipedia.org/wiki/Minimal_working_example). MWEs are defined in [Markdown](https://en.wikipedia.org/wiki/Markdown) files (such as the first comment in a GitHub issue); external tarball(s)/zipfile(s)/file(s) can be included. It extracts sources to separate files, (optionally) invokes docker, executes the entrypoint, (optionally) cleans up and exits with a meaningful error code. See [eine.github.io/issue-runner](https://eine.github.io/issue-runner) for installation and usage instructions.
 
 ---
 

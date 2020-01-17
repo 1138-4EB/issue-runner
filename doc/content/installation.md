@@ -7,6 +7,8 @@ title: Installation
 
 ## Set up a GitHub Actions workflow
 
+The TypeScript Action is bundled and distributed as a single JavaScript file in a
+
 > A minimal YAML workflow file:
 
 ```yml
@@ -24,10 +26,10 @@ jobs:
         allow-host: false
 ```
 
-Note that `with` parameters are both optional:
-
--   `token` is required to report feedback (labelling issues or adding comments automatically).
--   `allow-host` enables/disables running scripts on the host (without a container). For security reasons, this is discouraged and this parameter defaults to `false`.
+- https://octokit.github.io/rest.js/
+- https://github.com/actions/toolkit/tree/master/packages/github
+- https://github.com/features/actions
+- https://github.com/actions/typescript-action
 
 ## CLI tool
 

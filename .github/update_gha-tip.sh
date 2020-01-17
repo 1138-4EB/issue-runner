@@ -27,7 +27,7 @@ gend
 
 gstart "Update files in branch gha-tip"
 cp action.yml dist/
-cp README.md dist/README.md
+cp action.md dist/README.md
 cd dist
 git init
 git checkout --orphan gha-tip
