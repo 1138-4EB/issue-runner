@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>issue-runner documentation</title>
+    <link>https://eine.github.io/issue-runner/</link>
+    <description>Recent content on issue-runner documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://eine.github.io/issue-runner/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://eine.github.io/issue-runner/main/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://eine.github.io/issue-runner/main/</guid>
+      <description>Introduction Welcome to the documentation of issue-runner, a toolkit to retrive, set up and run Minimal Working Examples (MWEs).
+issue-runner supports MWEs defined in markdown files (such as the first comment in a GitHub issue), and external tarball(s)/zipfile(s)/file(s) can be included. It extracts sources to separate files, (optionally) invokes docker, executes the entrypoint, and cleans up.
+Furthermore, a GitHub Action (GHA) is provided, which allows to easily integrate the tool in (scheduled) YAML workflows.</description>
+    </item>
+    
+    <item>
+      <title>Installation</title>
+      <link>https://eine.github.io/issue-runner/installation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://eine.github.io/issue-runner/installation/</guid>
+      <description>Installation Set up a GitHub Actions workflow  A minimal YAML workflow file:
+ name: &amp;#39;issue?&amp;#39; on: issues: types: [ opened, edited ] jobs: mwe: runs-on: ubuntu-latest steps: - uses: eine/issue-runner@gha-v1 with: token: ${{ secrets.GITHUB_TOKEN }} allow-host: false Note that with parameters are both optional:
+ token is required to report feedback (labelling issues or adding comments automatically). allow-host enables/disables running scripts on the host (without a container). For security reasons, this is discouraged and this parameter defaults to false.</description>
+    </item>
+    
+    <item>
+      <title>Usage</title>
+      <link>https://eine.github.io/issue-runner/usage/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://eine.github.io/issue-runner/usage/</guid>
+      <description>Usage Supported markdown syntax  Language definition string containing :file:.*:
+ ```sh :file: hello.sh #!/usr/bin/env sh echo &amp;#34;Hello world!&amp;#34; ```  Body containing :file:.* as a comment (that depends on the target language):
+ ```sh#!/usr/bin/env sh echo &amp;#34;Hello world!&amp;#34; #:file: hello.sh ```  External files with the name to the reference matching :mwe:.*:
+ [:mwe:filename.ext.txt](URL) [:mwe:filename.tar.gz](URL) issue-runner scans the (markdown) body to extract:
+ Decorated code blocks. Attached/linked files.  Since GitHub allows uploading files with a limited set of extensions, issue-runner expects the user to append .</description>
+    </item>
+    
+    <item>
+      <title>Development</title>
+      <link>https://eine.github.io/issue-runner/development/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://eine.github.io/issue-runner/development/</guid>
+      <description>Development issue-runner is composed of:
+ A JavaScript action with TypeScript compile time support, unit testing with Jest and using the GHA Toolkit. A CLI tool written in golang. A GHA workflow.  Build and test inside a container The CLI can be developed in an official golang (or golang:alpine) container. See Usage for information about required binds.
+docker run --rm -it \  -v /$(pwd)://src \  -w //src \  -v //var/run/docker.</description>
+    </item>
+    
+    <item>
+      <title>ToDo</title>
+      <link>https://eine.github.io/issue-runner/todo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://eine.github.io/issue-runner/todo/</guid>
+      <description>ToDo   Complete section &amp;lsquo;Internal execution steps&amp;rsquo; of the README.
+  Properly handle exit codes / results.
+  Rethink the format/name of temporal directories created for each MWE.
+  Action:
+ Support labelling issues as reproducible or fixed?. Support editing an existing comment published by github-actions bot, instead of adding a new one each time. Support writing the logs and/or refs to jobs/artifacts in the body of the comment.</description>
+    </item>
+    
+  </channel>
+</rss>

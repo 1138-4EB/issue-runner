@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta name="generator" content="Hugo 0.62.1" />
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>issue-runner documentation</title>
+    
+
+
+
+
+
+
+
+
+<link href='/issue-runner/styles/screen.min.91205616ecdf919b228f3e5cd395b9be33abb407c7bc48b9a423880d2ee60761.css' rel="stylesheet" media="screen" integrity="sha256-kSBWFuzfkZsijz5c05W5vjOrtAfHvEi5pCOIDS7mB2E=" />
+<link href='/issue-runner/styles/print.min.45711bd9695b45ebb44987069b97048b53387273c18d5b9ea88b3cba3fec6be7.css' rel="stylesheet" media="print" integrity="sha256-RXEb2WlbReu0SYcGm5cEi1M4cnPBjVueqIs8uj/sa&#43;c=" />
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<script src='/issue-runner/js/all.min.9e6ecf552fccad7592c81dd5fb2f1e5bf87346e2491e3807f4d8fd6770b8a1f9.js' integrity="sha256-nm7PVS/MrXWSyB3V&#43;y8eW/hzRuJJHjgH9Nj9Z3C4ofk="></script>
+
+    
+</head>
+<body class="index" data-languages="">
+    <a href="#" id="nav-button">
+        <span>
+        NAV
+        <img src='/issue-runner/images/navbar.png'/>
+      </span>
+    </a>
+    <div class="toc-wrapper">
+        
+        
+         
+        
+        <div class="search">
+            <input type="search" class="search" id="input-search" placeholder='Search'>
+        </div>
+        <ul class="search-results"></ul>
+        
+        
+  <ul id="toc" class="toc-list-h1">
+    
+    
+      
+    
+    
+    
+      
+    
+    
+      <li>
+        <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">
+          Introduction
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="#installation" class="toc-h1 toc-link" data-title="Installation">
+          Installation
+        </a>
+        
+          <ul class="toc-list-h2">
+            
+              <li>
+                <a href="#cli-tool" class="toc-h2 toc-link" data-title="CLI tool">
+                  CLI tool
+                </a>
+                
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#usage" class="toc-h1 toc-link" data-title="Usage">
+          Usage
+        </a>
+        
+          <ul class="toc-list-h2">
+            
+              <li>
+                <a href="#cli" class="toc-h2 toc-link" data-title="CLI">
+                  CLI
+                </a>
+                
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#development" class="toc-h1 toc-link" data-title="Development">
+          Development
+        </a>
+        
+          <ul class="toc-list-h2">
+            
+              <li>
+                <a href="#continuous-integration" class="toc-h2 toc-link" data-title="Continuous integration">
+                  Continuous integration
+                </a>
+                
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#todo" class="toc-h1 toc-link" data-title="ToDo">
+          ToDo
+        </a>
+        
+      </li>
+    
+  </ul>
+
+         
+        
+        <ul class="toc-footer">
+            
+            <li><a href="https://github.com/eine/issue-runner"><img src="https://img.shields.io/badge/-eine/issue--runner-323131.svg?logo=github&amp;style=flat-square&amp;longCache=true" alt="github.com/eine/issue-runner"></a></li>
+            
+            <li>Built with <a href="https://gohugo.io/">Hugo</a> theme <a href="https://github.com/bep/docuapi">DocuAPI</a> by <a href="https://github.com/bep">bep</a></li>
+            
+        </ul>
+        
+        
+    </div>
+    <div class="page-wrapper">
+        <div class="dark-box"></div>
+        <div class="content">
+            
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+  
+    <h1 id="introduction">Introduction</h1>
+<p>Welcome to the documentation of <strong>issue-runner</strong>, a toolkit to retrive, set up and run Minimal Working Examples (MWEs).</p>
+<p>issue-runner supports MWEs defined in markdown files (such as the first comment in a GitHub issue), and external tarball(s)/zipfile(s)/file(s) can be included. It extracts sources to separate files, (optionally) invokes docker, executes the entrypoint, and cleans up.</p>
+<p>Furthermore, a GitHub Action (GHA) is provided, which allows to easily integrate the tool in (scheduled) YAML workflows.</p>
+
+  
+    <h1 id="installation">Installation</h1>
+<h2 id="set-up-a-github-actions-workflow">Set up a GitHub Actions workflow</h2>
+<blockquote>
+<p>A minimal YAML workflow file:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">name: <span style="color:#e6db74">&#39;issue?&#39;</span>
+on:
+  issues:
+    types: [ opened, edited ]
+jobs:
+  mwe:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: eine/issue-runner@gha-v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allow-host: <span style="color:#66d9ef">false</span>
+</code></pre></div><p>Note that <code>with</code> parameters are both optional:</p>
+<ul>
+<li><code>token</code> is required to report feedback (labelling issues or adding comments automatically).</li>
+<li><code>allow-host</code> enables/disables running scripts on the host (without a container). For security reasons, this is discouraged and this parameter defaults to <code>false</code>.</li>
+</ul>
+<h2 id="cli-tool">CLI tool</h2>
+<p>The CLI tool is a static binary written in golang, which can optionally use <code>docker</code>. It can be downloaded from <a href="https://github.com/eine/issue-runner/releases">github.com/eine/issue-runner/releases</a>, or it can be built from sources.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git clone https://github.com/eine/issue-runner
+cd tool
+go build -o issue-runner
+</code></pre></div><!--
+```sh
+curl -L https://raw.githubusercontent.com/eine/issue-runner/master/tool/get.sh | sh -
+```
+
+> You can give it a try at [play-with-docker.com](https://labs.play-with-docker.com/). Just create a node and run the command above.
+-->
+
+  
+    <h1 id="usage">Usage</h1>
+<h2 id="supported-markdown-syntax">Supported markdown syntax</h2>
+<blockquote>
+<p>Language definition string containing <code>:file:.*</code>:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">```sh :file: hello.sh
+#!/usr/bin/env sh
+echo &#34;Hello world!&#34;
+```
+</code></pre></div><blockquote>
+<p>Body containing <code>:file:.*</code> as a comment (that depends on the target language):</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md"><span style="color:#e6db74">```</span><span style="color:#e6db74">sh</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#75715e">#!/usr/bin/env sh
+</span><span style="color:#75715e"></span>echo <span style="color:#e6db74">&#34;Hello world!&#34;</span>
+<span style="color:#75715e">#:file: hello.sh</span>
+<span style="color:#e6db74">```</span>
+</code></pre></div><blockquote>
+<p>External files with the name to the reference matching <code>:mwe:.*</code>:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">[<span style="color:#f92672">:mwe:filename.ext.txt</span>](<span style="color:#a6e22e">URL</span>)
+[<span style="color:#f92672">:mwe:filename.tar.gz</span>](<span style="color:#a6e22e">URL</span>)
+</code></pre></div><p><strong>issue-runner</strong> scans the (markdown) body to extract:</p>
+<ul>
+<li>Decorated code blocks.</li>
+<li>Attached/linked files.</li>
+</ul>
+<aside class="notice">
+Since GitHub allows uploading files with a limited set of extensions, issue-runner expects the user to append <code>.txt</code> to attached source filenames. This extra extension is trimmed.
+<p>The exception are tarballs, zipfiles or txt files. No extra extension needs to be appended. The content of these is automatically extracted.</p>
+</aside>
+<h2 id="entrypoint">Entrypoint</h2>
+<blockquote>
+<p>Language definition string containing <code>:image:.*</code></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">```sh :image: debian:buster-slim
+echo &#34;Hello world!&#34;
+```
+</code></pre></div><blockquote>
+<p>Body containing :image:.* as a comment (that depends on the target language):</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md"><span style="color:#e6db74">```</span><span style="color:#e6db74">py</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#75715e">#!/usr/bin/env python3</span>
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Hello world!</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e">#:image: python:slim-buster</span>
+<span style="color:#e6db74">```</span>
+</code></pre></div><p>One, and only one, of the code blocks should contain <code>:image:.*</code> instead of <code>:file:.*</code>. That file will be the entrypoint to an OCI container.</p>
+<aside class="notice">
+To execute the MWE in multiple images, provide a space separated list. For example: <code>:image: alpine ghdl/ghdl:buster-mcode ubuntu:19.04</code>.
+</aside>
+<p>Alternatively, if no <code>:image:</code> is defined, the file which is named <code>run</code> will be used as the entrypoint to execute the MWE on the host.</p>
+<h2 id="cli">CLI</h2>
+<aside class="notice">
+Features to automatically label/comment the issues are not included in the CLI tool. These features are implemented in the GitHub Action only.
+</aside>
+<blockquote>
+<p>Providing a list of identifiers is supported:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">issue-runner <span style="color:#e6db74">&#39;tests/md/vunit-sh.md&#39;</span> <span style="color:#e6db74">&#39;VUnit/vunit#337&#39;</span> <span style="color:#e6db74">&#39;ghdl/ghdl#579&#39;</span>
+<span style="color:#75715e"># or</span>
+issue-runner <span style="color:#e6db74">&#39;ghdl/ghdl#584&#39;</span> <span style="color:#e6db74">&#39;https://raw.githubusercontent.com/eine/issue-runner/master/tests/md/vunit-py.md&#39;</span>
+</code></pre></div><p>At least one of the following references needs to be provided:</p>
+<ul>
+<li>Path or URL to markdown file: <code>issue-runner path/to/markdown/file.md</code></li>
+<li>Full URL to a GitHub issue: <code>issue-runner 'https://github.com/user/repo/issues/number'</code></li>
+<li>Short reference of a GitHub issue (see <a href="https://help.github.com/articles/autolinked-references-and-urls/#issues-and-pull-requests">GitHub Help: Autolinked references and URLs</a>): <code>issue-runner 'user/repo#number'</code></li>
+</ul>
+<aside class="notice">
+Multiple references can be managed as a single MWE with flag <code>-m|--merge</code>.
+</aside>
+<blockquote>
+<p>MWEs defined in a single file/body can be read through <em>stdin</em>:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat ./tests/md/hello001.md | ./issue-runner -
+<span style="color:#75715e"># or</span>
+./issue-runner -y - &lt; ./tests/md/hello003.md
+</code></pre></div><h3 id="docker-container">Docker container</h3>
+<p>Instead of installing issue-runner on the host, the CLI tool can be used as a container. In this context, execution on the <em>host</em> refers to executing the MWEs in the same container. Running sibling containers is supported too; however, it requires a named volume (<code>issues:/volume</code>) and the socket of the daemon to be bind.</p>
+<blockquote>
+<p>Execution of MWEs on sibling containers:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker run --rm <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v //var/run/docker.sock://var/run/docker.sock <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v issues://volume <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  eine/issue-runner &lt;ref&gt;
+</code></pre></div>
+  
+    <h1 id="development">Development</h1>
+<p><strong>issue-runner</strong> is composed of:</p>
+<ul>
+<li>A JavaScript action with TypeScript compile time support, unit testing with Jest and using the GHA Toolkit.</li>
+<li>A CLI tool written in golang.</li>
+<li>A GHA workflow.</li>
+</ul>
+<h2 id="build-and-test-inside-a-container">Build and test inside a container</h2>
+<p>The CLI can be developed in an official <code>golang</code> (or <code>golang:alpine</code>) container. See <a href="">Usage</a> for information about required binds.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker run --rm -it <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v /<span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>://src <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -w //src <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v //var/run/docker.sock://var/run/docker.sock <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v issues://volume <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  golang bash
+</code></pre></div><h2 id="internal-execution-steps">Internal execution steps</h2>
+<p>Each time an issue is created or edited:</p>
+<!--
+issue metadata
+spawn container mounting files in /src
+report the results back to GitHub
+-->
+<ul>
+<li>&hellip;</li>
+<li>A temporal subdir is created.</li>
+<li>Source files defined or referred in the first message of the issue are saved to separate files.</li>
+<li>If a file with key <code>:image:</code> exists, it is saved as <code>run</code>.</li>
+<li><code>run</code> is executed either on the host or inside a container.</li>
+<li>&hellip;</li>
+</ul>
+<h2 id="create-a-new-release-branch">Create a new release branch</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cp action.yml dist/
+git checkout --orphan &lt;BRANCH&gt;
+git rm --cached -r .
+git add dist
+git clean -fdx
+git mv dist/* ./
+
+git commit -am &lt;release message&gt;
+git push origin &lt;release branch name&gt;
+</code></pre></div><p><code>master</code> branch of this repository contains the TypeScript sources of the action. However, these need to be compiled. A job in workflow <code>push.yml</code> is used to update branch <code>gha-tip</code> after each push that passes the tests. This kind of <em>auto-updated</em> branches need to be manually created the first time.</p>
+<h2 id="continuous-integration">Continuous integration</h2>
+<p>After each commit is pushed to <code>master</code>:</p>
+<ul>
+<li>The action is built, tested and published to branch <code>gha-tip</code>.</li>
+<li><code>golangci-lint</code> and <code>goreleaser</code> are executed in subdir <code>tool</code>, and <code>test.sh</code> is executed.</li>
+<li>Action <a href="https://github.com/eine/issue-runner/tip">eine/tip@gha-tip</a> is used to update tag <code>tip</code> and tool artifacts are published as a pre-release named <code>tip</code>.</li>
+</ul>
+<aside class="notice">
+Version `eine/issue-runner@gha-tip` of this action will automatically retrieve the CLI tool from [github.com/eine/issue-runner/releases/tag/tip](https://github.com/eine/issue-runner/releases/tag/tip).
+</aside>
+
+  
+    <h1 id="todo">ToDo</h1>
+<ul>
+<li>
+<p><input disabled="" type="checkbox">Complete section &lsquo;Internal execution steps&rsquo; of the README.</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox">Properly handle exit codes / results.</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox">Rethink the format/name of temporal directories created for each MWE.</p>
+</li>
+<li>
+<p>Action:</p>
+<ul>
+<li><input disabled="" type="checkbox">Support labelling issues as <code>reproducible</code> or <code>fixed?</code>.</li>
+<li><input disabled="" type="checkbox">Support editing an existing comment published by github-actions bot, instead of adding a new one each time.</li>
+<li><input disabled="" type="checkbox">Support writing the logs and/or refs to jobs/artifacts in the body of the comment.</li>
+<li><input disabled="" type="checkbox">Support a <code>with</code> option/parameter to optionally make test artifacts available through a CI job.</li>
+</ul>
+</li>
+<li>
+<p>CLI:</p>
+<ul>
+<li><input disabled="" type="checkbox">Add <em>golden</em> files.</li>
+<li><input disabled="" type="checkbox">Write <code>get.sh</code> script and uncomment related info in section &lsquo;Installation &gt; CLI tool&rsquo; of the README.</li>
+</ul>
+</li>
+<li>
+<p>CI:</p>
+<ul>
+<li><input disabled="" type="checkbox">Implement publishing regular tagged (i.e. non-tip) releases.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://podman.io/">podman.io</a></p>
+<ul>
+<li><input disabled="" type="checkbox">Check if podman is supported for local execution.</li>
+<li><input disabled="" type="checkbox">Check if podman is supported in GHA environments (even though docker is installed by default).</li>
+</ul>
+</li>
+<li>
+<p>Security:</p>
+<ul>
+<li><input disabled="" type="checkbox">Ensure that github_token is not accessible for MWEs.</li>
+<li><input disabled="" type="checkbox">Which are the risks of executing MWEs on the host?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/arcanis/sherlock">arcanis/sherlock</a></p>
+<ul>
+<li>Close obsolete issues after each release</li>
+</ul>
+</li>
+</ul>
+<!--
+TODO: publish issue-runner as a scratch-based docker image
+Check requisites, e.g. "indocker":
+ - Check if the socket is available
+ - Check if there is some mechanism to share data between sibling containers
+-->
+
+  
+
+        </div>
+        <div class="dark-box">
+            
+        </div>
+    </div>
+    
+</body>
+</html>

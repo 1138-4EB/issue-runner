@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://eine.github.io/issue-runner/main/</loc>
+  </url>
+  
+  <url>
+    <loc>https://eine.github.io/issue-runner/installation/</loc>
+  </url>
+  
+  <url>
+    <loc>https://eine.github.io/issue-runner/usage/</loc>
+  </url>
+  
+  <url>
+    <loc>https://eine.github.io/issue-runner/development/</loc>
+  </url>
+  
+  <url>
+    <loc>https://eine.github.io/issue-runner/todo/</loc>
+  </url>
+  
+  <url>
+    <loc>https://eine.github.io/issue-runner/</loc>
+  </url>
+  
+</urlset>
