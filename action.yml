@@ -1,0 +1,13 @@
+name: 'Issue runner'
+description: 'Test MWEs provided in issue bodies'
+author: 'eine'
+inputs:
+  token:
+    description: 'Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
+    required: false
+  allow-host:
+    description: 'Whether to allow executing MWEs on the host (i.e. without a container)'
+    required: false
+runs:
+  using: 'node12'
+  main: 'main.js'
